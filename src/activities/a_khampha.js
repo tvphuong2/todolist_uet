@@ -21,13 +21,13 @@ export default function Khampha ({ navigation }) {
 
     return (
         <View style={styles.container}>
-            <View style={{flex: 0.92}}>
+            <ScrollView style={{flex: 0.92}}>
                 <View style={styles.header}>
                     <SearchInput value={tu_khoa} setValue={thay_tu_khoa} placeholder='Tìm kiếm' />
                     <View style={styles.listTopic}>
                         {topic.map((item, index) => {
                             return (
-                                <Topic icon={item.icon} color={item.color} name={item.name} label={item.label} key={index} onPress={() => navigation.navigate('DiscoverByTopic', {type_id: item.id, type_label: item.label})} />
+                                <Topic icon={item.icon} color={item.color} name={item.name} label={item.label} key={index} onPress={() => navigation.navigate('ChuDe', {type_id: item.id, type_label: item.label, navigation: navigation})} />
                             )
                         })}
                     </View>
@@ -44,7 +44,7 @@ export default function Khampha ({ navigation }) {
                             );
                         })}
                 </View>
-            </View>
+            </ScrollView>
             <Dieuhuong navigation = {navigation}/>
         </View>
     )
@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
     list: {
         flexDirection: 'row',
         flexWrap: 'wrap',
-        justifyContent: 'space-between',
+        justifyContent: 'center',
         ...Platform.select({
             ios: {
                 marginRight: 10,

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Image, StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { View, Image, StyleSheet, Text, TouchableOpacity, ScrollView } from 'react-native';
 import {Ionicons, MaterialIcons, MaterialCommunityIcons} from '@expo/vector-icons';
 import ReviewVote from '../component/ReviewVote';
 import ReviewComment from '../component/ReviewComment';
@@ -12,20 +12,13 @@ export default function BanGhi({route}) {
     const [post, setPost] = useState(null);
     const [steps, setSteps] = useState(null);
     const [vote, setVote] = useState(null);
-    const [comments, setComments] = useState(null);
+    const [comments, setComments] = useState([]);
     const [newComment, setNewComment] = useState('');
 
     const list_id = route.params.list_id;
     var navigation = route.params.navigation;
 
 	var step = [];
-
-    // if (steps) {
-    //     console.log(step)
-    //     step.push(
-    //         <Text>Ahihi</Text>
-    //     )
-    // }
 
     useEffect(() => {
         API.APILayBanGhi(list_id, (res) => {
@@ -59,18 +52,31 @@ export default function BanGhi({route}) {
         })
 
         API.APILayDanhGia(list_id, (res) => {
-            if(res.result.avg === '') return;
-                setVote(res.result.avg);
+            if(res.result.avg != null) setVote(res.result.avg);
+        })
+        var r
+        API.APILayBinhLuan(list_id, (res) => {
+            console.log(res.result)
+            if(res.result != "") {
+                r = res.result
+            }
         })
 
-        API.APILayBinhLuan(list_id, (res) => {
-            if(res.result === '') return;
-                setComments(res.result);
-        })
+        setTimeout(()=> {
+            if (r != null)
+            setComments(r);
+        }, 500)
     }, []);
+
+    // useEffect(()=> {
+    //     console.log(comments)
+    // }, [comments])
 
     const handleCreateComment = () => {
         console.log(newComment);
+        API.APITaoBinhLuan(list_id, newComment, (res) => {
+            console.log(res)
+        })
         // axios.post('http://192.168.191.119:3000/list/make_comment/', {newComment, list_id})
         // .then(response => {
         //     console.log(response.data);
@@ -82,7 +88,7 @@ export default function BanGhi({route}) {
     }
 
     return (
-        <View style={styles.container}>
+        <ScrollView style={styles.container}>
             <View style={styles.illustration}>
                 <TouchableOpacity style={styles.back} onPress={() => navigation.navigate('Discover')}>
                     <Ionicons name="ios-arrow-back" size={35} color="white" />
@@ -146,7 +152,7 @@ export default function BanGhi({route}) {
                 <CreateComment newComment={newComment} setNewComment={setNewComment} handleCreateComment={handleCreateComment} />
                 {comments && 
                     comments
-                        .splice(0, 2)
+                        .splice(0, 6)
                         .map((comment, index) => {
                         return (
                             <ReviewComment key={index} comment={comment} vote={vote} />
@@ -154,7 +160,7 @@ export default function BanGhi({route}) {
                     })
                 }
             </View>
-        </View>
+        </ScrollView>
     );
 }
 
