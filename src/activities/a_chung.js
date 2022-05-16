@@ -9,7 +9,7 @@ class Chung extends Component {
     render() { 
         return (
             <View style={styles.dieuhuong}>
-            <TouchableHighlight style={styles.nutdieuhuong} onPress={() => this.props.navigation.navigate('Chinh')}>
+            <TouchableHighlight style={styles.nutdieuhuong} onPress={() => this.props.navigation.navigate('ThucHien')}>
                 <Text>CH</Text>
             </TouchableHighlight>
             <TouchableHighlight style={styles.nutdieuhuong} onPress={() => this.props.navigation.navigate('LuuTru')}>

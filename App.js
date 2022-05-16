@@ -6,6 +6,7 @@ import LuuTru from './src/activities/a_luutru'
 import Dangnhap from './src/activities/a_dangnhap'
 import KhamPha from './src/activities/a_khampha'
 import BanGhi from './src/activities/a_banghi'
+import ThucHien from './src/activities/a_thuchien'
 
 const Stack = createNativeStackNavigator();
 
@@ -18,6 +19,7 @@ export default function App() {
         <Stack.Screen name="LuuTru" component={LuuTru} />
         <Stack.Screen name="KhamPha" component={KhamPha} />
         <Stack.Screen name="BanGhi" component={BanGhi} />
+        <Stack.Screen name="ThucHien" component={ThucHien} />
       </Stack.Navigator>
     </NavigationContainer>
   );
