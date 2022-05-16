@@ -20,31 +20,39 @@ export default function BanGhi({route}) {
 
 	var step = [];
 
+    // if (steps) {
+    //     console.log(step)
+    //     step.push(
+    //         <Text>Ahihi</Text>
+    //     )
+    // }
+
     useEffect(() => {
         API.APILayBanGhi(list_id, (res) => {
             console.log("Bản ghi ------------------------------")
-            console.log(res)
+            // console.log(res)
             setPost(res.result);
             API.APILayBuoc(list_id, (res) => {
                 console.log("Bước ------------------------------")
-                console.log(res)
+                // console.log(res)
                 for (let i = 0; i < res.result.length; i++) {
                     step.push(
-                        <Text style={styles.mainStep} key={i}>
+                        <Text style={styles.mainStep} key={`a${i}`}>
                             {i + 1}. {res.result[i].name}: <Text style={styles.desc}>{res.result[i].description}</Text>
                         </Text>
                     )
                     API.APILayBuocCon(res.result[i].step_id, i, (res) => {
                         console.log(`Bước ${i}------------------------------`)
-                        console.log(res)
+                        // console.log(res)
                         for (let j = 0; j < res.result.length; j++) {
                             var child = res.result[j];
                             step.push(
-                                <Text style={styles.childStep} key={j}>
+                                <Text style={styles.childStep} key={`b${j}`}>
                                     {child.name}: <Text style={styles.desc}>{child.description}</Text>
                                 </Text>
                             )
                         }
+                        setSteps(step)
                     })
                 }
             })
@@ -111,7 +119,7 @@ export default function BanGhi({route}) {
                 </View>
                 }
 				<View style={styles.step}>
-					{step}
+					{steps}
 				</View>
 			</View>
 
