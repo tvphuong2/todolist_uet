@@ -1,22 +1,25 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
-import Main from './src/activities/Chinh'
+import * as React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import Chinh from './src/activities/a_chinh'
+import LuuTru from './src/activities/a_luutru'
+import Dangnhap from './src/activities/a_dangnhap'
+import KhamPha from './src/activities/a_khampha'
+import BanGhi from './src/activities/a_banghi'
+
+const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-      <Main/>
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="Dangnhap"   screenOptions={{headerShown: false}}>
+      <Stack.Screen name="Dangnhap" component={Dangnhap} />
+        <Stack.Screen name="Chinh" component={Chinh} />
+        <Stack.Screen name="LuuTru" component={LuuTru} />
+        <Stack.Screen name="KhamPha" component={KhamPha} />
+        <Stack.Screen name="BanGhi" component={BanGhi} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
