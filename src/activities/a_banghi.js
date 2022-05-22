@@ -88,79 +88,82 @@ export default function BanGhi({route}) {
     }
 
     return (
-        <ScrollView style={styles.container}>
-            <View style={styles.illustration}>
-                <TouchableOpacity style={styles.back} onPress={() => navigation.navigate('Discover')}>
-                    <Ionicons name="ios-arrow-back" size={35} color="white" />
-                </TouchableOpacity>
-                {post && post.image !== '' ?
-                    <Image style={styles.img} source={{ uri: post.image }} /> :
-                    <Image style={styles.img} source={require('../resource/Image/8.jpeg')} /> 
-                }
-                <View style={styles.download}>
-                    <MaterialCommunityIcons name="download" size={35} color="white" />
-                </View>
-            </View>
-			<View style={styles.content}>
-                {post && 
-                <View>
-                    <View style={styles.title}>
-                        <Text style={styles.mainTitle}>{post.name}</Text>
-                        <Text style={styles.desc}>{post.description}</Text>
-                    </View>
-                    <View style={styles.info}>
-                        <View style={styles.type}>
-                            <Text style={styles.type}>Lượt xem: {post.view}</Text>
-                            <Text style={styles.type}>Lượt tải về: {post.download}</Text>
-                            <Text style={styles.type}>Đánh giá: {vote}</Text>
-                        </View>
-                        <View style={styles.row}>
-                            {post.image !== '' ?
-                            <Image style={styles.author} source={{ uri: post.image }} /> :
-                            <Image style={styles.author} source={require('../resource/Image/logo.png')} /> 
-                            }
-                            <Text style={styles.desc}>{post.name}</Text>
-                        </View>
+        <View style={styles.container}>
+            <ScrollView  style={{flex: 1}}>
+                <View style={styles.illustration}>
+                    <TouchableOpacity style={styles.back} onPress={() => navigation.navigate('Discover')}>
+                        <Ionicons name="ios-arrow-back" size={35} color="white" />
+                    </TouchableOpacity>
+                    {post && post.image !== '' ?
+                        <Image style={styles.img} source={{ uri: post.image }} /> :
+                        <Image style={styles.img} source={require('../resource/Image/empty.png')} /> 
+                    }
+                    <View style={styles.download}>
+                        <MaterialCommunityIcons name="download" size={35} color="white" />
                     </View>
                 </View>
-                }
-				<View style={styles.step}>
-					{steps}
-				</View>
-			</View>
-
-            <View style={styles.space}></View>
-
-            <View style={styles.review}>
-                <View style={styles.reviewHeader}>
+                <View style={styles.content}>
+                    {post && 
                     <View>
-                        <Text style={styles.reviewHeaderText}>ĐÁNH GIÁ BÀI ĐĂNG</Text>
-                        {vote && 
-                            <View style={{flexDirection: 'row'}}>
-                                <ReviewVote vote={vote} />
-                                <Text style={{color: '#ee4d2d'}}>{vote}/5</Text>
+                        <View style={styles.title}>
+                            <Text style={styles.mainTitle}>{post.name}</Text>
+                            <Text style={styles.desc}>{post.description}</Text>
+                        </View>
+                        <View style={styles.info}>
+                            <View style={styles.type}>
+                                <Text style={styles.type}>Lượt xem: {post.view}</Text>
+                                <Text style={styles.type}>Lượt tải về: {post.download}</Text>
+                                <Text style={styles.type}>Đánh giá: {vote}</Text>
                             </View>
-                        }
+                            <View style={styles.row}>
+                                {post.image !== '' ?
+                                <Image style={styles.author} source={{ uri: post.image }} /> :
+                                <Image style={styles.author} source={require('../resource/Image/logo.png')} /> 
+                                }
+                                <Text style={styles.desc}>{post.name}</Text>
+                            </View>
+                        </View>
                     </View>
-                    <View style={styles.viewAll}>
-                        <TouchableOpacity onPress={() => navigation.navigate('Review', {list_id: list_id})}>
-                            <Text style={{color: '#ee4d2d'}}>Xem tất cả </Text>
-                        </TouchableOpacity>
-                        <Text><MaterialIcons name="navigate-next" size={20} color="#ee4d2d" /></Text>
+                    }
+                    <View style={styles.step}>
+                        {steps}
                     </View>
                 </View>
-                <CreateComment newComment={newComment} setNewComment={setNewComment} handleCreateComment={handleCreateComment} />
-                {comments && 
-                    comments
-                        .splice(0, 6)
-                        .map((comment, index) => {
-                        return (
-                            <ReviewComment key={index} comment={comment} vote={vote} />
-                        )
-                    })
-                }
-            </View>
-        </ScrollView>
+
+                <View style={styles.space}></View>
+
+                <View style={styles.review}>
+                    <View style={styles.reviewHeader}>
+                        <View>
+                            <Text style={styles.reviewHeaderText}>ĐÁNH GIÁ BÀI ĐĂNG</Text>
+                            {vote && 
+                                <View style={{flexDirection: 'row'}}>
+                                    <ReviewVote vote={vote} />
+                                    <Text style={{color: '#ee4d2d'}}>{vote}/5</Text>
+                                </View>
+                            }
+                        </View>
+                        <View style={styles.viewAll}>
+                            <TouchableOpacity onPress={() => navigation.navigate('Review', {list_id: list_id})}>
+                                <Text style={{color: '#ee4d2d'}}>Xem tất cả </Text>
+                            </TouchableOpacity>
+                            <Text><MaterialIcons name="navigate-next" size={20} color="#ee4d2d" /></Text>
+                        </View>
+                    </View>
+                    <CreateComment newComment={newComment} setNewComment={setNewComment} handleCreateComment={handleCreateComment} />
+                    {comments && 
+                        comments
+                            .splice(0, 6)
+                            .map((comment, index) => {
+                            return (
+                                <ReviewComment key={index} comment={comment} vote={vote} />
+                            )
+                        })
+                    }
+                </View>
+            </ScrollView>
+            <Dieuhuong navigation = {navigation}/>
+        </View>
     );
 }
 

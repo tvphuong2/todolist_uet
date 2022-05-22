@@ -21,7 +21,7 @@ export default function Khampha ({ navigation }) {
 
     return (
         <View style={styles.container}>
-            <ScrollView style={{flex: 0.92}}>
+            <ScrollView style={{flex: 1}}>
                 <View style={styles.header}>
                     <SearchInput value={tu_khoa} setValue={thay_tu_khoa} placeholder='Tìm kiếm' />
                     <View style={styles.listTopic}>

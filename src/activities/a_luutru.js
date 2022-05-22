@@ -8,11 +8,11 @@ export default function LuuTru({ navigation }) {
 
 	return (
         <View style={{flex: 1}}>
-            <View style={{flex: 0.92}}>
+            <View style={{flex: 0.1}}>
                 <ScrollView>
                     <View styles = {styles.container}>
                         <View>
-                            <Text>hmmmmm</Text>
+                            <Text>Luu tru</Text>
                         </View>
                     </View>
                 </ScrollView>

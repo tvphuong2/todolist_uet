@@ -16,7 +16,7 @@ export default function Dangnhap({ navigation }) {
             if (res.status != "thanhcong") {
                 setE_login('Tên đăng nhập hoặc mật khẩu sai')
             } else {
-                navigation.navigate('Chinh')
+                navigation.navigate('ThucHien')
             }
         })
     }

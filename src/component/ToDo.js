@@ -29,8 +29,7 @@ const ToDo = (props) => {
     return (
         <View style={styles.container}>
             <View>
-                {/* <Image source={image ? { uri: image } : imageRamdom[Math.floor(Math.random()*20)]} style={styles.image} /> */}
-                <Image source={image ? { uri: image } : require('../resource/Image/8.jpeg')} style={styles.image} />
+                <Image source={image ? { uri: image } : require('../resource/Image/empty.png')} style={styles.image} />
             </View>
             <View style={styles.title}>
                 <Text style={styles.titleText} numberOfLines={2}>{title}</Text>

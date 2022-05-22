@@ -32,7 +32,6 @@ class Chung extends Component {
 
 const styles = StyleSheet.create({
     dieuhuong: {
-        bottom: -62 ,
         backgroundColor: '#C4C4C4',
         flexDirection: 'row',
         justifyContent: 'space-around',

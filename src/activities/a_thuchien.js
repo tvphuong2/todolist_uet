@@ -174,7 +174,7 @@ export default function ThucHien({ navigation }) {
     }
     return (
         <ImageBackground source={image} resizeMode="cover" style={styles.container}>
-            <SafeAreaView style={{ flex: 0.92 }}>
+            <SafeAreaView style={{ flex: 1 }}>
                 <View style={styles.nearing_completion}>
                     <Text style={styles.title}>Đang hoàn thiện</Text>
                     <View style={styles.content}>
