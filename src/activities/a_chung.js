@@ -19,10 +19,10 @@ class Chung extends Component {
                 <TouchableHighlight style={styles.nutdieuhuong} onPress={() => this.props.navigation.navigate('KhamPha')}>
                     <FontAwesome5 name="compass" size={24} color="tomato" />
                 </TouchableHighlight>
-                <TouchableHighlight style={styles.nutdieuhuong} onPress={() => this.props.navigation.navigate('LuuTru')}>
+                {/* <TouchableHighlight style={styles.nutdieuhuong} onPress={() => this.props.navigation.navigate('LuuTru')}>
                     <FontAwesome5 name="bell" size={24} color="tomato" />
-                </TouchableHighlight>
-                <TouchableHighlight style={styles.nutdieuhuong} >
+                </TouchableHighlight> */}
+                <TouchableHighlight style={styles.nutdieuhuong} onPress={() => this.props.navigation.navigate('Dangnhap')}>
                     <FontAwesome5 name="user-alt" size={24} color="tomato" />
                 </TouchableHighlight>
             </View>

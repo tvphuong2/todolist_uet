@@ -15,75 +15,32 @@ export default function BanGhi({route}) {
     const [newComment, setNewComment] = useState('');
     const [author, setAuthor] = useState(null);
 
-    const list_id = route.params.list_id;
+    const json = route.params.json;
     var navigation = route.params.navigation;
 
 	var step = [];
     var inforAuthor = [];
 
     useEffect(() => {
-        API.APILayBanGhi(list_id, (res) => {
-            console.log("Bản ghi ------------------------------")
-            // console.log(res)
-            setPost(res.result);
-            console.log(res.result.author_id);
-            API.APILayBuoc(list_id, (res) => {
-                console.log("Bước ------------------------------")
-                for (let i = 0; i < res.result.length; i++) {
-                    step.push(
-                        <Text style={styles.mainStep} key={`a${i}`}>
-                            {i + 1}. {res.result[i].name}: <Text style={styles.desc}>{res.result[i].description}</Text>
-                        </Text>
-                    )
-                    API.APILayBuocCon(res.result[i].step_id, i, (res) => {
-                        console.log(`Bước ${i}------------------------------`)
-                        for (let j = 0; j < res.result.length; j++) {
-                            var child = res.result[j];
-                            step.push(
-                                <Text style={styles.childStep} key={`b${j}`}>
-                                    {child.name}: <Text style={styles.desc}>{child.description}</Text>
-                                </Text>
-                            )
-                        }
-                        setSteps(step)
-                    })
-                }
-            })
-            
-            API.APILayTacGia(res.result.author_id, (res) => {
-                console.log('Thông tin tác giả---------------');
-                if (res.result.image !== '' && res.result.image !== null) {
-                    inforAuthor.push(
-                        <Image style={styles.author} source={{ uri: res.result.image }} />
-                    )
-                } else {
-                    inforAuthor.push(
-                        <Image style={styles.author} source={require('../resource/Image/logo.png')} />
-                    )
-                }
-                inforAuthor.push(
-                    <Text style={styles.desc}>{res.result.name}</Text>
+        console.log(route.params)
+        setPost(json);
+        for (let i = 0; i < json.step.length; i++) {
+            var s = json.step[i]
+            step.push(
+                <Text style={styles.mainStep} key={`a${i}`}>
+                    {i + 1}. {s.name}: <Text style={styles.desc}>{s.description}</Text>
+                </Text>
+            )
+            for (let j = 0; j < s.substep.length; j++) {
+                var child = s.substep[i]
+                step.push(
+                    <Text style={styles.childStep} key={`b${j}`}>
+                        {child.name}: <Text style={styles.desc}>{child.description}</Text>
+                    </Text>
                 )
-                setAuthor(inforAuthor);
-            })
-
-        })
-
-        API.APILayDanhGia(list_id, (res) => {
-            if(res.result.avg != null) setVote(res.result.avg);
-        })
-        var r
-        API.APILayBinhLuan(list_id, (res) => {
-            // console.log(res.result)
-            if(res.result != "") {
-                r = res.result
             }
-        })
-
-        setTimeout(()=> {
-            if (r != null)
-            setComments(r);
-        }, 500)
+        }
+        setSteps(step)     
     }, []);
 
     useEffect(()=> {
@@ -92,10 +49,10 @@ export default function BanGhi({route}) {
 
     const handleCreateComment = () => {
         console.log(newComment);
-        API.APITaoBinhLuan(list_id, newComment, (res) => {
+        API.APITaoBinhLuan(json, newComment, (res) => {
             console.log(res)
             var r
-            API.APILayBinhLuan(list_id, (res) => {
+            API.APILayBinhLuan(json, (res) => {
                 // console.log(res.result)
                 if(res.result != "") {
                     r = res.result
@@ -139,16 +96,6 @@ export default function BanGhi({route}) {
                         <Text style={styles.mainTitle}>{post.name}</Text>
                         <Text style={styles.desc}>{post.description}</Text>
                     </View>
-                    <View style={styles.info}>
-                        <View style={styles.type}>
-                            <Text style={styles.type}>Lượt xem: {post.view}</Text>
-                            <Text style={styles.type}>Lượt tải về: {post.download}</Text>
-                            <Text style={styles.type}>Đánh giá: {vote}</Text>
-                        </View>
-                        <View style={styles.row}>
-                            {author}
-                        </View>
-                    </View>
                 </View>
                 }
 				<View style={styles.step}>
@@ -158,35 +105,6 @@ export default function BanGhi({route}) {
 
             <View style={styles.space}></View>
 
-            <View style={styles.review}>
-                <View style={styles.reviewHeader}>
-                    <View>
-                        <Text style={styles.reviewHeaderText}>ĐÁNH GIÁ BÀI ĐĂNG</Text>
-                        {vote && 
-                            <View style={{flexDirection: 'row'}}>
-                                <ReviewVote vote={vote} />
-                                <Text style={{color: '#ee4d2d'}}>{vote}/5</Text>
-                            </View>
-                        }
-                    </View>
-                    <View style={styles.viewAll}>
-                        <TouchableOpacity onPress={() => navigation.navigate('Review', {list_id: list_id})}>
-                            <Text style={{color: '#ee4d2d'}}>Xem tất cả </Text>
-                        </TouchableOpacity>
-                        <Text><MaterialIcons name="navigate-next" size={20} color="#ee4d2d" /></Text>
-                    </View>
-                </View>
-                <CreateComment newComment={newComment} setNewComment={setNewComment} handleCreateComment={handleCreateComment} />
-                {comments && 
-                    comments
-                        .splice(0, 6)
-                        .map((comment, index) => {
-                        return (
-                            <ReviewComment key={index} comment={comment} vote={vote} />
-                        )
-                    })
-                }
-            </View>
         </ScrollView>
     );
 }

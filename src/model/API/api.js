@@ -49,3 +49,9 @@ export function APITaoBinhLuan (list_id, binh_luan, hanhdong) {
         comment: binh_luan, 
     })
 }
+
+export function APITangLuotTaiVe (list_id, hanhdong) {
+    return postRequest(`${PATH}/list/download`, hanhdong, {
+        list_id: list_id,
+    })
+}

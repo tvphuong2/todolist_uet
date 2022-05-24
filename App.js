@@ -9,6 +9,7 @@ import KhamPha from './src/activities/a_khampha'
 import BanGhi from './src/activities/a_banghi'
 import ThucHien from './src/activities/a_thuchien'
 import ChuDe from './src/activities/a_chude'
+import LBanGhi from './src/activities/a_Lbanghi'
 
 const Stack = createNativeStackNavigator();
 
@@ -18,10 +19,11 @@ export default function App() {
       {/* <ScrollView contentContainerStyle={{height: "100%"}}> */}
         <Stack.Navigator initialRouteName="Dangnhap"   screenOptions={{headerShown: false}}>
         <Stack.Screen name="Dangnhap" component={Dangnhap} />
-          <Stack.Screen name="Chinh" component={Chinh} />
-          <Stack.Screen name="LuuTru" component={LuuTru} />
           <Stack.Screen name="KhamPha" component={KhamPha} />
+          <Stack.Screen name="LuuTru" component={LuuTru} />
+          <Stack.Screen name="Chinh" component={Chinh} />
           <Stack.Screen name="BanGhi" component={BanGhi} />
+          <Stack.Screen name="LBanGhi" component={LBanGhi} />
           <Stack.Screen name="ThucHien" component={ThucHien} />
           <Stack.Screen name="ChuDe" component={ChuDe} />
         </Stack.Navigator>

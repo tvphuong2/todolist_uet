@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import ToDo from '../component/ToDo';
 import { Ionicons } from '@expo/vector-icons';
 import SearchInput from '../component/SearchInput';
@@ -17,6 +17,7 @@ export default function ChuDe({route}) {
 
     return (
         <View style={styles.container}>
+            <ScrollView style={{flex: 0.92}}>
             <View style={styles.header}>
                 <TouchableOpacity onPress={() => navigation.navigate('Discover')}>
                     <Ionicons name="arrow-back" size={35} color="#ee4d2d" />
@@ -35,6 +36,8 @@ export default function ChuDe({route}) {
                         );
                     })}
             </View>
+            </ScrollView>
+            <Dieuhuong navigation = {navigation}/>
         </View>
     )
 }
@@ -43,12 +46,13 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: 'center',
-        backgroundColor: 'white'
+        backgroundColor: 'white',
+        paddingTop: 20,
     },
     header: {
         flexDirection: 'row',
         alignItems:'center',
-        width: '100%'
+        width: '100%', 
     },
     back: {
         padding: 0,
@@ -63,7 +67,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         flexWrap: 'wrap',
         justifyContent: 'space-between',
-        marginRight: 10,
+        marginRight: 25,
         marginLeft: 10
     },
 });

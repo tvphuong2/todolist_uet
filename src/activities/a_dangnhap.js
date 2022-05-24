@@ -11,12 +11,13 @@ export default function Dangnhap({ navigation }) {
     const [e_login, setE_login] = useState('');
 
     const dangNhap = () => {
+        console.log("dang dang nhap")
         API.dangNhap(email, password, (res) => {
             console.log(res)
             if (res.status != "thanhcong") {
                 setE_login('Tên đăng nhập hoặc mật khẩu sai')
             } else {
-                navigation.navigate('ThucHien')
+                navigation.navigate('KhamPha')
             }
         })
     }

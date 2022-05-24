@@ -1,20 +1,76 @@
-import { StyleSheet, Text, View, Image } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
+// import { AsyncStorage }from '@react-native-async-storage/async-storage';
+// import { AsyncStorage } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import { useEffect, useState } from 'react';
 import ReviewVote from './ReviewVote';
+import * as API from '../model/API/api';
+import * as LOCAL from '../model/API/SQLite';
 
 const ToDo = (props) => {
-    const { title, view, download, image, list_id } = props;
+    const { title, view, download, image, list_id, index, navigation } = props;
     const [vote, setVote] = useState(null);
+    const [data, setData] = useState(null);
+
     const handleNumberView = (number) => {
         if (number < 1000) {
             return number;
         } else if (number < 1000000) {
             return (number / 1000).toFixed(1) + 'K';
         } else {
-            return (number / 1000000).toFixed(1) + "Tr";
+            return (number / 1000000).toFixed(1) + "M";
         }
     }
+
+    // var storageList = [];
+    // var steps = [];
+
+    useEffect(() => {
+        var steps = []
+        var list_i
+        API.APILayBanGhi(list_id, (res) => {
+            list_i = res.result
+            API.APILayBuoc(list_id, (res) => {
+                for (let i = 0; i < res.result.length; i++) {
+                    var subs = [];
+                    API.APILayBuocCon(res.result[i].step_id, i, (res) => {
+                        for (let j = 0; j < res.result.length; j++) {
+                            subs.push({
+                                name: res.result[j].name,
+                                time: res.result[j].time,
+                                description: res.result[j].description
+                            });
+                        }
+                        // console.log(list);
+                    })
+                    steps.push({
+                        description: res.result[i].description,
+                        name: res.result[i].name,
+                        substep: subs,
+                        time: 0
+                    });
+                }
+            })
+            // storageList.push(`"step": ${steps}`);
+        })
+        setTimeout(()=> {
+            var d = JSON.stringify({
+                name: list_i.name,
+                description: list_i.description,
+                image: list_i.image,
+                step: steps
+            })
+            setData(d)
+        }, 1000)
+    }, []);
+
+    // Lưu danh sách vào bộ nhớ cục bộ
+    const _storeData = async () => {
+        console.log(data)
+        LOCAL.Download(data, (res) => {
+            console.log(res)
+        })
+    };
 
     // useEffect(() => {
     //     axios.get(`http://127.0.0.1:3000/list/get_vote?list_id=${list_id}`)
@@ -28,15 +84,22 @@ const ToDo = (props) => {
 
     return (
         <View style={styles.container}>
-            <View>
-                <Image source={image ? { uri: image } : require('../resource/Image/empty.png')} style={styles.image} />
-            </View>
-            <View style={styles.title}>
-                <Text style={styles.titleText} numberOfLines={2}>{title}</Text>
-            </View>
+            <TouchableOpacity style={styles.item} key={index} onPress={() => navigation.navigate('BanGhi', {list_id: list_id, navigation})}>
+                <View>
+                    {/* <Image source={image ? { uri: image } : imageRamdom[Math.floor(Math.random()*20)]} style={styles.image} /> */}
+                    <Image source={image ? { uri: image } : require('../resource/Image/8.png')} style={styles.image} />
+                </View>
+                <View style={styles.title}>
+                    <Text style={styles.titleText} numberOfLines={2}>{title}</Text>
+                </View>
+            </TouchableOpacity>
+
+        
             <View style={styles.view}>
                 <View style={{ flexDirection: 'row' }}>
-                    <Feather name="download" size={16} color="#ee4d2d" />
+                    <TouchableOpacity style={styles.back} onPress={_storeData}>
+                        <Feather name="download" size={16} color="#ee4d2d" />
+                    </TouchableOpacity>
                     <Text style={{marginLeft: 3}}>{download}</Text>
                 </View>
                 <View style={{alignItems: 'flex-end'}}>
@@ -59,7 +122,7 @@ export default ToDo;
 
 const styles = StyleSheet.create({
     container: {
-        width: 170,
+        width: 160,
         height: 300,
         marginTop: 10,
         borderWidth: 1,

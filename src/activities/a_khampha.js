@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Platform, View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
+import { Platform, View, Text, StyleSheet, TouchableOpacity, ScrollView, AsyncStorage } from 'react-native';
 import Topic from '../component/Topic';
 import ToDo from '../component/ToDo';
 import SearchInput from '../component/SearchInput';
@@ -18,16 +18,17 @@ export default function Khampha ({ navigation }) {
     useEffect(() => {
         API.APITimKiem(tu_khoa, thay_ket_qua)
     }, [tu_khoa])
+    
 
     return (
         <View style={styles.container}>
-            <ScrollView style={{flex: 1}}>
+            <ScrollView style={{flex: 0.92}}>
                 <View style={styles.header}>
                     <SearchInput value={tu_khoa} setValue={thay_tu_khoa} placeholder='Tìm kiếm' />
                     <View style={styles.listTopic}>
                         {topic.map((item, index) => {
                             return (
-                                <Topic icon={item.icon} color={item.color} name={item.name} label={item.label} key={index} onPress={() => navigation.navigate('ChuDe', {type_id: item.id, type_label: item.label, navigation: navigation})} />
+                                <Topic icon={item.icon} color={item.color} name={item.name} image={item.image} label={item.label} key={index} onPress={() => navigation.navigate('ChuDe', {type_id: item.id, type_label: item.label, navigation: navigation})} />
                             )
                         })}
                     </View>
@@ -36,11 +37,11 @@ export default function Khampha ({ navigation }) {
 
                 <View style={styles.list}>
                     {ket_qua && ket_qua
+
+
                         .map((item, index) => {
                             return (
-                                <TouchableOpacity style={styles.item} key={index} onPress={() => navigation.navigate('BanGhi', {list_id: item.list_id, navigation})}>
-                                    <ToDo title={item.name} view={item.view} download={item.download} list_id={item.list_id} />
-                                </TouchableOpacity>
+                                    <ToDo title={item.name} view={item.view} download={item.download} list_id={item.list_id} index={index} navigation={navigation}/>
                             );
                         })}
                 </View>
@@ -54,7 +55,8 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: 'center',
-        backgroundColor: 'white'
+        backgroundColor: 'white',
+        paddingTop: 20,
     },
     header: {
         backgroundColor: '#ee4d2d',
